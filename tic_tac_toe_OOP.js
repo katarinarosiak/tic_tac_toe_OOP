@@ -14,24 +14,28 @@ class Human extends Player {
   constructor() {
     super();
     this.mark = 'O';
+    this.name = 'Human';
   }
   makeMove() {
     this.chooseSquareMessage();
     while (true) {
       this.human.chosenSquare = readline.question('');
-      if (this.board.boardState[this.human.chosenSquare] !== " ") break;
-      console.log('This square is taken. Please choose again.');
-
-      this.board.boardState[this.human.chosenSquare] = this.human.mark;
-      this.board.takenSquares++;
-      break;
+      if (this.board.boardState[this.human.chosenSquare] !== " ") {
+        console.log('Your answer is invalid or The square is taken. Please choose again.');
+      } else {
+        this.board.boardState[this.human.chosenSquare] = this.human.mark;
+        this.board.takenSquares++;
+        break;
+      }
     }
   }
+}
 
 class Computer extends Player {
   constructor() {
     super();
     this.mark = 'X';
+    this.name = 'Computer';
   }
 
   makeMove() {
@@ -124,11 +128,11 @@ class Game {
 
 
   chooseSquareMessage() {
-    console.log("Choose where to put your sign: i.e. a1")
+    console.log("Choose where to put your sign: i.e. a1");
   }
 
   checkIfValid() {
-    console.log('check if valid')
+    console.log('check if valid');
   }
 
   checkIfWin() {
@@ -170,10 +174,10 @@ class Game {
     console.log("|| || ||    ||   ||  || ||          ");
     console.log(" ||||||     ||   ||   ||||  || || ||");
     console.log("");
-    console.log(`${this.currentPlayer} wins`);
+    console.log(`${this.currentPlayer.name} wins`);
   }
 
-  printTieprintTie() {
+  printTie() {
     console.log("");
     console.log("      |||      ||||||||  ||  ||||||   || || ||");
     console.log("     || ||        ||     ||  ||       || || ||");
@@ -184,12 +188,12 @@ class Game {
   }
 
   displayPlayAgainMessage() {
-    console.log('Do you want to play again?')
+    console.log('Do you want to play again?');
   }
 
   resetGame() {
     this.board.clearBoard();
-    this.takenSquares = 0;
+    this.board.takenSquares = 0;
     this.currentPlayer = this.human;
   }
 
@@ -214,6 +218,7 @@ class Game {
         }
         if (this.checkIfTie()) {
           this.printTie();
+          break;
         }
         this.changeTurn();
       }
